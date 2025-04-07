@@ -1,0 +1,24 @@
+Verify Your IP Configuration:
+Ensure that your machine is configured with the IP address 192.168.8.105. You can check your network settings or use a command like ipconfig (on Windows) or ifconfig/ip addr (on Linux/macOS).
+
+Start the PHP Built-In Server:
+Open your terminal or command prompt, navigate to the directory containing your PHP files, and run:
+
+bash
+Copy
+php -S 169.254.128.191:8000
+This command tells PHP to start a local web server on IP 192.168.8.105 at port 8000. You can change the port if needed.
+
+Access the Server:
+Open a web browser and navigate to:
+
+cpp
+Copy
+http://192.168.8.115:8000
+You should see your PHP application running.
+
+Notes:
+
+The built-in PHP server is designed for development and testing. For production, consider using a full-featured web server like Apache or Nginx.
+
+Ensure that your firewall settings allow traffic on the chosen port (e.g., 8000).
