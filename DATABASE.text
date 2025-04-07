@@ -1,0 +1,120 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS jtnewtrong;
+USE jtnewtrong;
+
+-- Users Table
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'staff', 'boss', 'other') NOT NULL DEFAULT 'other',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Products Table
+DROP TABLE IF EXISTS products;
+SET FOREIGN_KEY_CHECKS = 0;
+CREATE TABLE IF NOT EXISTS products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  brand VARCHAR(100) NOT NULL,
+  unit VARCHAR(50) NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  cost DECIMAL(10,2) DEFAULT 0,  -- Cost price for expense calculations
+  stock INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Rentals Table
+DROP TABLE IF EXISTS rentals;
+CREATE TABLE IF NOT EXISTS rentals (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_name VARCHAR(255) NOT NULL,
+  rental_item VARCHAR(255) NOT NULL,
+  start_date DATE,
+  end_date DATE,
+  total_price DECIMAL(10,2),
+  status ENUM('Pending','Approved','Completed') DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Support Tickets Table
+DROP TABLE IF EXISTS support_tickets;
+CREATE TABLE IF NOT EXISTS support_tickets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_name VARCHAR(255) NOT NULL,
+  subject VARCHAR(255) NOT NULL,
+  description TEXT,
+  status ENUM('Open', 'In Progress', 'Closed') DEFAULT 'Open',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Company Info Table (with image columns)
+DROP TABLE IF EXISTS company_info;
+CREATE TABLE IF NOT EXISTS company_info (
+  id INT PRIMARY KEY,
+  company_name VARCHAR(255),
+  established VARCHAR(50),
+  founder VARCHAR(255),
+  address TEXT,
+  phone VARCHAR(50),
+  email VARCHAR(100),
+  website VARCHAR(255),
+  overview TEXT,
+  mission TEXT,
+  vision TEXT,
+  target_market TEXT,
+  company_values TEXT,
+  objectives TEXT,
+  social_responsibility TEXT,
+  future_goals TEXT,
+  company_logo VARCHAR(255) DEFAULT NULL,
+  activity_picture VARCHAR(255) DEFAULT NULL
+);
+
+-- Orders Table (for sales)
+DROP TABLE IF EXISTS orders;
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  staff_id INT,
+  total_price DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Order Items Table
+DROP TABLE IF EXISTS order_items;
+CREATE TABLE IF NOT EXISTS order_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT,
+  product_id INT,
+  quantity INT,
+  price DECIMAL(10,2),
+  FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- Customers Table for CRM
+DROP TABLE IF EXISTS customers;
+CREATE TABLE IF NOT EXISTS customers (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   phone VARCHAR(50),
+   address TEXT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Employees Table for Employee Management
+DROP TABLE IF EXISTS employees;
+CREATE TABLE IF NOT EXISTS employees (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   role VARCHAR(100),
+   schedule TEXT,
+   payroll DECIMAL(10,2) DEFAULT 0,
+   performance TEXT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
